@@ -1,0 +1,17 @@
+FROM openjdk:11
+
+COPY ./scripts/chromedriver_linux64_102.0.5005.27 /app/bin/chromedriver_linux64_102.0.5005.27
+RUN chmod +x /app/bin/chromedriver_linux64_102.0.5005.27
+
+COPY ./scripts/google-chrome-stable_102.0.5005.61-1_amd64.deb /app/scripts/google-chrome-stable_102.0.5005.61-1_amd64.deb
+
+# config apt mirrors to fix build slowly in China. Just remove it if no need.
+RUN echo > /etc/apt/sources.list &&\
+    echo  "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ buster main contrib non-free" >/etc/apt/sources.list &&\
+    echo  "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ buster-updates main contrib non-free" >>/etc/apt/sources.list &&\
+    echo  "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free" >>/etc/apt/sources.list &&\
+    echo  "deb http://mirrors.tuna.tsinghua.edu.cn/debian-security buster/updates main contrib non-free" >>/etc/apt/sources.list
+
+RUN apt-get update
+
+RUN apt-get install -y --allow-unauthenticated /app/scripts/google-chrome-stable_102.0.5005.61-1_amd64.deb && rm /app/scripts/google-chrome-stable_102.0.5005.61-1_amd64.deb
