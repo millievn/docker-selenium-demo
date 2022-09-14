@@ -47,3 +47,11 @@ docker-compose up --build -d
 # echo some string like "中国探月未来已来"
 curl http://localhost:8080/page
 ```
+
+## Issue
+
+Add arguments if your app hangs referring to [Headless chrome is not working in the docker](https://github.com/SeleniumHQ/docker-selenium/issues/520)
+
+```java
+  options.addArgument("no-sandbox")
+```
